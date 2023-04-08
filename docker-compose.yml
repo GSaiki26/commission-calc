@@ -1,0 +1,8 @@
+version: '3.9'
+
+services:
+  commission-calc:
+    container_name: commission-calc
+    build: ./app
+    ports:
+      - 443:80

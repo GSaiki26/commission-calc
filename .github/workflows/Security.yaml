@@ -1,0 +1,27 @@
+name: "Security"
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  security:
+    strategy:
+      matrix:
+        - os: [ubuntu-22.04]
+        - version: [19.2]
+    runs-on: ${{ matrix.os }}
+  steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        version: ${{ matrix.version }}
+
+    - name: Install prettier
+      run: npm i -g prettier
+
+    - name: Run audit
+      run: cd app; yarn audit
+
+    - name: Check prettier format
+      run: npx prettier --check ./app
